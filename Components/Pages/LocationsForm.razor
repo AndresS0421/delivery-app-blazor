@@ -1,0 +1,113 @@
+﻿@page "/locations/new"
+@page "/locations/edit/{Id:int}"
+@using _3Parcial.Models;
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioLocations _repositorio;
+
+<PageTitle>Locations</PageTitle>
+
+<h1>@_mensaje Ubicacion</h1>
+
+<EditForm Model="_location" FormName="frmLocation" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="row mb-3">
+        <label for="txtModel" class="col-2 col-form-label">Calle</label>
+        <div>
+            <InputText id="txtStret" class="form-control" @bind-Value="_location.Street" />
+            <ValidationMessage For="()=>_location.Street" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtBrand" class="col-2 col-form-label">Número Exterior</label>
+        <div>
+            <InputNumber id="txtExtNum" class="form-control" @bind-Value="_location.ExtNumber" />
+            <ValidationMessage For="()=>_location.ExtNumber" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtYear" class="col-2 col-form-label">Número Interior</label>
+        <div>
+            <InputNumber id="txtIntNum" class="form-control" @bind-Value="_location.IntNumber" />
+            <ValidationMessage For="()=>_location.IntNumber" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtNeighborhood" class="col-2 col-form-label">Colonia</label>
+        <div>
+            <InputText id="txtNeighborhood" class="form-control" @bind-Value="_location.Neighborhood" />
+            <ValidationMessage For="()=>_location.Neighborhood" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtZipCode" class="col-2 col-form-label">Código Postal</label>
+        <div>
+            <InputText id="txtZipCode" class="form-control" @bind-Value="_location.ZipCode" />
+            <ValidationMessage For="()=>_location.ZipCode" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtCity" class="col-2 col-form-label">Ciudad</label>
+        <div>
+            <InputText id="txtCity" class="form-control" @bind-Value="_location.City" />
+            <ValidationMessage For="()=>_location.City" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtState" class="col-2 col-form-label">Estado</label>
+        <div>
+            <InputText id="txtState" class="form-control" @bind-Value="_location.State" />
+            <ValidationMessage For="()=>_location.State" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtCountry" class="col-2 col-form-label">País</label>
+        <div>
+            <InputText id="txtCountry" class="form-control" @bind-Value="_location.Country" />
+            <ValidationMessage For="()=>_location.Country" />
+        </div>
+    </div>
+
+    <div class="row gx-2">
+        <button type="submit" class="col btn btn-primary">Guardar</button>
+        <button class="col btn btn-danger" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private string _mensaje = "";
+    private Location _location = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            _location = await _repositorio.Get(Id);
+            _mensaje = "Modificar";
+        }
+        else
+        {
+            _mensaje = "Nueva";
+        }
+    }
+
+    private async void Guardar()
+    {
+        if (Id > 0)
+        {
+            await _repositorio.Update(Id, _location);
+        }
+        else
+        {
+            await _repositorio.Add(_location);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("/locations");
+    }
+}

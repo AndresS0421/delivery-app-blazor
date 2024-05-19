@@ -1,0 +1,119 @@
+﻿@page "/vehicles/new"
+@page "/vehicles/edit/{Id:int}"
+@using _3Parcial.Models;
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioVehicles _repositorio;
+
+<PageTitle>Vehicles</PageTitle>
+
+<h1>@_mensaje Vehiculo</h1>
+
+<EditForm Model="_vehicle" FormName="frmVehicle" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="row mb-3">
+        <label for="txtModel" class="col-2 col-form-label">Modelo</label>
+        <div>
+            <InputText id="txtModel" class="form-control" @bind-Value="_vehicle.Model"/>
+            <ValidationMessage For="()=>_vehicle.Model"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtBrand" class="col-2 col-form-label">Marca</label>
+        <div>
+            <InputText id="txtBrand" class="form-control" @bind-Value="_vehicle.Brand" />
+            <ValidationMessage For="()=>_vehicle.Brand" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtYear" class="col-2 col-form-label">Año</label>
+        <div>
+            <InputText id="txtYear" class="form-control" @bind-Value="_vehicle.Year" />
+            <ValidationMessage For="()=>_vehicle.Year" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="txtColor" class="col-2 col-form-label">Color</label>
+        <div>
+            <InputText id="txtColor" class="form-control" @bind-Value="_vehicle.Color" />
+            <ValidationMessage For="()=>_vehicle.Color" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputKilometrage" class="col-2 col-form-label">Kilometraje</label>
+        <div>
+            <InputNumber id="inputKilometraje" class="form-control" @bind-Value="_vehicle.Kilometrage" />
+            <ValidationMessage For="()=>_vehicle.Kilometrage" />
+        </div>
+    </div>
+    <div class="my-3">
+        <label for="type">Tipo de Vehículo</label>
+        <InputRadioGroup @bind-Value="_vehicle.Type">
+            <div class="row">
+                @for (var i = 0; i < _vehicleType.Length; i++)
+                {
+                    <div class="col mx-3">
+                        <InputRadio Value="@i"/>@_vehicleType[i]
+                    </div>
+                }
+            </div>
+        </InputRadioGroup>
+    </div>
+    <div class="my-3">
+        <label for="type">Status de Vehículo</label>
+        <InputSelect class="form-select" @bind-Value="_vehicle.Status">
+            <option value="0">Seleccionar...</option>
+            @for (var i = 0; i < _vehicleStatus.Length; i++)
+            {
+                <option value="@i">@_vehicleStatus[i]</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="row gx-2">
+        <button type="submit" class="col btn btn-primary">Guardar</button>
+        <button class="col btn btn-danger" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private string _mensaje = "";
+    private Vehiculo _vehicle = new();
+    private string[]? _vehicleType;
+    private string[]? _vehicleStatus;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _vehicleType = System.Enum.GetNames(typeof(VehicleType));
+        _vehicleStatus = System.Enum.GetNames(typeof(VehicleStatus));
+        if (Id > 0)
+        {
+            _vehicle = await _repositorio.Get(Id);
+            _mensaje = "Modificar";
+        }
+        else
+        {
+            _mensaje = "Nueva";
+        }
+    }
+
+    private async void Guardar()
+    {
+        if (Id > 0)
+        {
+            await _repositorio.Update(Id, _vehicle);
+        }
+        else
+        {
+            await _repositorio.Add(_vehicle);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("/vehicles");
+    }
+}

@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\usuario\\source\\repos\\3Parcial\\3Parcial\\3Parcial\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\3Parcial.bundle.scp.css",
+      "PackagePath": "staticwebassets\\3Parcial.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\usuario\\source\\repos\\3Parcial\\3Parcial\\3Parcial\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\usuario\\source\\repos\\3Parcial\\3Parcial\\3Parcial\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\usuario\\source\\repos\\3Parcial\\3Parcial\\3Parcial\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\usuario\\source\\repos\\3Parcial\\3Parcial\\3Parcial\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.3Parcial.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.3Parcial.props",
+      "PackagePath": "build\\3Parcial.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.3Parcial.props",
+      "PackagePath": "buildMultiTargeting\\3Parcial.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.3Parcial.props",
+      "PackagePath": "buildTransitive\\3Parcial.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,0 +1,93 @@
+﻿@page "/locations"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioLocations _repositorio;
+
+
+<PageTitle>Locations</PageTitle>
+
+<h1>Ubicaciones</h1>
+
+<div>
+    <button class="btn btn-primary" @onclick="Add">Agregar</button>
+</div>
+
+@if (_locations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (_locations.Count <= 0)
+{
+    <p>Ninguna ubicación encontrada</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Calle</th>
+                <th>Número Exterior</th>
+                <th>Colonia</th>
+                <th>Código Postal</th>
+                <th>Ciudad</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var location in _locations)
+            {
+                <tr>
+                    <td>@location.Id</td>
+                    <td>@location.Street</td>
+                    <td>@location.ExtNumber</td>
+                    <td>@location.Neighborhood</td>
+                    <td>@location.ZipCode</td>
+                    <td>@location.City</td>
+                    <td>@location.State</td>
+                    <td>
+                        <div class="row gx-3">
+                            <div class="col"
+                                 style="cursor: pointer"
+                                 @onclick="() => Delete(location)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                            </div>
+                            <div class="col"
+                                 style="cursor: pointer"
+                                 @onclick="() => Update(location.Id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Location>? _locations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _locations = await _repositorio.GetAll();
+    }
+
+    private async void Delete(Location location)
+    {
+        await _repositorio.Delete(location.Id);
+        _locations!.Remove(location);
+        StateHasChanged();
+    }
+
+    private void Update(int id)
+    {
+        _navigator.NavigateTo($"/locations/edit/{id}");
+    }
+
+    private void Add()
+    {
+        _navigator.NavigateTo($"/locations/new");
+    }
+}
