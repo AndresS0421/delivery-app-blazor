@@ -160,3 +160,4 @@ C:\Users\usuario\source\repos\3Parcial\3Parcial\3Parcial\obj\Debug\net8.0\refint
 C:\Users\usuario\source\repos\3Parcial\3Parcial\3Parcial\obj\Debug\net8.0\3Parcial.pdb
 C:\Users\usuario\source\repos\3Parcial\3Parcial\3Parcial\obj\Debug\net8.0\3Parcial.genruntimeconfig.cache
 C:\Users\usuario\source\repos\3Parcial\3Parcial\3Parcial\obj\Debug\net8.0\ref\3Parcial.dll
+C:\Users\usuario\source\repos\3Parcial\3Parcial\3Parcial\obj\Debug\net8.0\3Parcial.sourcelink.json

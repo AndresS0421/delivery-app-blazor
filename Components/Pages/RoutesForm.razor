@@ -4,6 +4,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager _navigator;
 @inject IRepositorioRoutes _repositorio;
+@inject IRepositorioLocations _repositorio_locations;
 
 <PageTitle>Routes</PageTitle>
 
@@ -11,6 +12,29 @@
 
 <EditForm Model="_route" FormName="frmLocation" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
+    @if (_locations != null)
+    {
+        <div class="my-3">
+            <label for="type">Origen</label>
+            <InputSelect class="form-select" @bind-Value="_route.Origin">
+                <option value="0">Seleccionar...</option>
+                @foreach (Location location in _locations)
+                {
+                    <option value="@location.Id">@location.Street @location.ExtNumber, @location.Neighborhood. @location.ZipCode</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="my-3">
+            <label for="type">Destino</label>
+            <InputSelect class="form-select" @bind-Value="_route.Destination">
+                <option value="0">Seleccionar...</option>
+                @foreach (Location location in _locations)
+                {
+                    <option value="@location.Id">@location.Street @location.ExtNumber, @location.Neighborhood. @location.ZipCode</option>
+                }
+            </InputSelect>
+        </div>
+    }
     <div class="row mb-3">
         <label for="numDistance" class="col-2 col-form-label">Distancia</label>
         <div>
@@ -26,45 +50,17 @@
         </div>
     </div>
     <div class="row mb-3">
-        <label for="txtYear" class="col-2 col-form-label">StartAt</label>
+        <label for="txtStartAt" class="col-2 col-form-label">Inicia</label>
         <div>
-            <InputText id="txtIntNum" class="form-control" @bind-Value="_route.StartAt" />
-            <ValidationMessage For="()=>_location.IntNumber" />
+            <InputDate Type="InputDateType.Time" id="txtStartAt" class="form-control" @bind-Value="_route.StartAt" />
+            <ValidationMessage For="()=>_route.StartAt" />
         </div>
     </div>
     <div class="row mb-3">
-        <label for="txtNeighborhood" class="col-2 col-form-label">Colonia</label>
+        <label for="txtEndAt" class="col-2 col-form-label">Finaliza</label>
         <div>
-            <InputText id="txtNeighborhood" class="form-control" @bind-Value="_location.Neighborhood" />
-            <ValidationMessage For="()=>_location.Neighborhood" />
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="txtZipCode" class="col-2 col-form-label">Código Postal</label>
-        <div>
-            <InputText id="txtZipCode" class="form-control" @bind-Value="_location.ZipCode" />
-            <ValidationMessage For="()=>_location.ZipCode" />
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="txtCity" class="col-2 col-form-label">Ciudad</label>
-        <div>
-            <InputText id="txtCity" class="form-control" @bind-Value="_location.City" />
-            <ValidationMessage For="()=>_location.City" />
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="txtState" class="col-2 col-form-label">Estado</label>
-        <div>
-            <InputText id="txtState" class="form-control" @bind-Value="_location.State" />
-            <ValidationMessage For="()=>_location.State" />
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="txtCountry" class="col-2 col-form-label">País</label>
-        <div>
-            <InputText id="txtCountry" class="form-control" @bind-Value="_location.Country" />
-            <ValidationMessage For="()=>_location.Country" />
+            <InputDate Type="InputDateType.Time" id="txtEndAt" class="form-control" @bind-Value="_route.EndAt" />
+            <ValidationMessage For="()=>_route.EndAt" />
         </div>
     </div>
 
@@ -79,12 +75,15 @@
     public int Id { get; set; }
     private string _mensaje = "";
     private DeliveryRoute _route = new();
+    private List<Location>? _locations;
 
     protected override async Task OnInitializedAsync()
     {
+        _locations = await _repositorio_locations.GetAll();
+
         if (Id > 0)
         {
-            _location = await _repositorio.Get(Id);
+            _route = await _repositorio.Get(Id);
             _mensaje = "Modificar";
         }
         else
@@ -97,17 +96,17 @@
     {
         if (Id > 0)
         {
-            await _repositorio.Update(Id, _location);
+            await _repositorio.Update(Id, _route);
         }
         else
         {
-            await _repositorio.Add(_location);
+            await _repositorio.Add(_route);
         }
         Cancelar();
     }
 
     private void Cancelar()
     {
-        _navigator.NavigateTo("/locations");
+        _navigator.NavigateTo("/routes");
     }
 }
