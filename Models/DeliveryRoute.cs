@@ -25,5 +25,9 @@ namespace _3Parcial.Models
         virtual public Location? Origin { get; set; }
 
         virtual public Location? Destination { get; set; }
+
+        virtual public ICollection<Stops>? Stops { get; set; }
+
+        virtual public ICollection<Vehiculo>? Vehicles { get; set; }
     }
 }

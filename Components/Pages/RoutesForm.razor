@@ -17,7 +17,18 @@
         <div class="my-3">
             <label for="type">Origen</label>
             <InputSelect class="form-select" @bind-Value="_route.Origin">
-                <option value="0">Seleccionar...</option>
+                <option>Seleccionar...</option>
+                @foreach (Location location in _locations)
+                {
+                    <option value="@location.Id">@location.Street @location.ExtNumber, @location.Neighborhood. @location.ZipCode</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="my-3">
+            <label for="type">Destino</label>
+            <InputSelect class="form-select" @bind-Value="_route.Destination">
+                <option>Seleccionar...</option>
                 @foreach (Location location in _locations)
                 {
                     <option value="@location.Id">@location.Street @location.ExtNumber, @location.Neighborhood. @location.ZipCode</option>
@@ -25,9 +36,9 @@
             </InputSelect>
         </div>
         <div class="my-3">
-            <label for="type">Destino</label>
+            <label for="type">Vehículos</label>
             <InputSelect class="form-select" @bind-Value="_route.Destination">
-                <option value="0">Seleccionar...</option>
+                <option>Seleccionar...</option>
                 @foreach (Location location in _locations)
                 {
                     <option value="@location.Id">@location.Street @location.ExtNumber, @location.Neighborhood. @location.ZipCode</option>

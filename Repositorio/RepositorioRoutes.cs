@@ -14,7 +14,7 @@ namespace _3Parcial.Repositorio
 
         public async Task<List<DeliveryRoute>> GetAll()
         {
-            return await _context.Routes.ToListAsync();
+            return await _context.Routes.Include(v => v.Vehicles).Include(s => s.Stops).ToListAsync();
         }
 
         public async Task<DeliveryRoute> Add(DeliveryRoute route)

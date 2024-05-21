@@ -60,14 +60,14 @@
         </InputRadioGroup>
     </div>
     <div class="my-3">
-        <label for="type">Status de Vehículo</label>
-        <InputSelect class="form-select" @bind-Value="_vehicle.Status">
-            <option value="0">Seleccionar...</option>
+        <label for="txtStatus">Status de Vehículo</label>
+        <InputSelect id="txtStatus" class="form-select" aria-label="Default select example" @bind-Value="_vehicleStatus[0]">
             @for (var i = 0; i < _vehicleStatus.Length; i++)
             {
                 <option value="@i">@_vehicleStatus[i]</option>
             }
         </InputSelect>
+        <ValidationMessage For="() => _vehicle.Status"/>
     </div>
 
     <div class="row gx-2">

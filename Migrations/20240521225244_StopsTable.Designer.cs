@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _3Parcial.Models;
 
@@ -11,9 +12,11 @@ using _3Parcial.Models;
 namespace _3Parcial.Migrations
 {
     [DbContext(typeof(CatalogoDBContext))]
-    partial class CatalogoDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240521225244_StopsTable")]
+    partial class StopsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

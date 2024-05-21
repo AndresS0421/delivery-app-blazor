@@ -11,6 +11,7 @@ builder.Services.AddDbContext<CatalogoDBContext>(options => options.UseSqlServer
 builder.Services.AddScoped<IRepositorioVehicles, RepositorioVehicles>();
 builder.Services.AddScoped<IRepositorioLocations, RepositorioLocations>();
 builder.Services.AddScoped<IRepositorioRoutes, RepositorioRoutes>();
+builder.Services.AddScoped<IRepositorioStops, RepositorioStops>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
